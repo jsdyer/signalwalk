@@ -1,33 +1,19 @@
-<!doctype html>
-<html lang="en-CA">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="{{DESCRIPTION}}">
-  <title>{{TITLE}} · CoolCode</title>
-  <link rel="stylesheet" href="./style.css">
-  <script type="module" src="./app.mjs"></script>
-</head>
-<body data-tool-id="{{TOOL_ID}}">
-  <a class="skip" href="#main">Skip to content</a>
-  <header><a href="https://coolcode.ca/">← CoolCode.ca</a><a href="{{SOURCE_URL}}">Source &amp; instructions ↗</a></header>
-  <main id="main">
-    <p class="eyebrow">Browser tool starter</p>
-    <h1>{{TITLE}}</h1>
-    <p class="intro">{{DESCRIPTION}}</p>
-    <section aria-labelledby="example-title">
-      <h2 id="example-title">Clean a list</h2>
-      <p>Trim spaces, skip blank lines and remove exact duplicates. Capitalization stays distinct.</p>
-      <div class="panels">
-        <div><label for="input">Your lines</label><textarea id="input" rows="10" maxlength="100000" spellcheck="false" placeholder="Paste one item per line"></textarea></div>
-        <div><label for="output">Cleaned lines</label><textarea id="output" rows="10" readonly spellcheck="false"></textarea></div>
-      </div>
-      <div class="actions"><button id="sample" type="button">Load example</button><button id="clear" type="button">Clear</button><button id="copy" type="button" hidden>Copy result</button></div>
-      <p id="status" role="status" aria-live="polite">Paste a list to begin.</p>
-      <noscript><p>This tool needs JavaScript to process your text. The source is available above.</p></noscript>
-    </section>
-    <aside aria-label="Privacy"><strong>Stays on your device.</strong> This example makes no API requests and does not save your text. Reloading clears it.</aside>
-  </main>
-  <footer>Part of <a href="https://coolcode.ca/">the CoolCode collection</a>.</footer>
-</body>
-</html>
+<!doctype html><html lang="en-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="{{DESCRIPTION}}">
+<title>{{TITLE}} · CoolCode</title><link rel="stylesheet" href="./style.css"><script type="module" src="./app.mjs"></script></head>
+<body data-project="{{TOOL_ID}}"><header><div class="wrap mast"><a href="https://coolcode.ca/">← CoolCode</a><span>Networks &amp; routing</span></div></header><main class="wrap">
+<section class="hero"><p class="kicker">Android / cellular field notes</p><h1>Signal Walk</h1><p>Compare signal and registration observations from two walks through the same place.</p></section>
+<section><h2>Import your recordings</h2><p>For each walk, select its LTE, NR and phone-state files together from Android Network Survey. Find the CSVs in <code>Download/NetworkSurveyData/csv</code>. Files stay in this tab.</p>
+<div class="pair"><div class="import"><label for="walk0">Walk A</label><input type="file" id="walk0" accept=".csv,text/csv" multiple><p class="meta" id="info0" role="status">No files selected.</p></div>
+<div class="import"><label for="walk1">Walk B</label><input type="file" id="walk1" accept=".csv,text/csv" multiple><p class="meta" id="info1" role="status">No files selected.</p></div></div></section>
+<section class="align"><div><h2>Align checkpoints</h2><p>Use elapsed seconds from each recording’s first timestamp. Enter the times when you reached the same landmark.</p></div>
+<form id="marker"><label>Checkpoint name<input id="name" maxlength="64" placeholder="e.g. Elevator" required></label><label>Walk A (s)<input id="aTime" type="number" min="0" step="any" required></label><label>Walk B (s)<input id="bTime" type="number" min="0" step="any" required></label><button id="add" disabled>Add checkpoint</button></form>
+<p id="markerStatus" class="meta" role="status"></p><div class="controls"><label>Align zero to<select id="anchor"><option value="-1">Recording starts</option></select></label><button id="remove" type="button" disabled>Remove selected checkpoint</button></div></section>
+<section id="comparison"><div class="sectionHead"><div><p class="kicker">Aligned timeline</p><h2>Signal and phone state</h2></div><button id="export" disabled>Export private report</button></div>
+<p id="empty">Import a walk to inspect its observations. Add a second walk to compare checkpoints.</p>
+<div id="analysis" hidden><p class="meta" id="axisHelp"></p><div class="pair" id="plots"></div><p class="meta">Dots are individual serving-cell measurements. Empty periods have no recorded sample. LTE uses RSRP and NR uses SS-RSRP. NR CSI-RSRP and neighbour observations remain available in the records.</p>
+<h3>At the alignment point</h3><p class="meta">Nearest recorded observation in each walk within 15 seconds of zero. The signed offset shows how far it was from the checkpoint.</p><div class="pair" id="near"></div>
+<h3>Recorded observations</h3><label class="walkpicker">Show records for<select id="recordsWalk"><option value="0">Walk A</option><option value="1">Walk B</option></select></label><div class="scroll"><table><thead><tr><th>Aligned time</th><th>Device timestamp</th><th>Record</th><th>Observed values</th></tr></thead><tbody id="records"></tbody></table></div>
+<div class="paging"><button id="prev">Previous</button><span id="page"></span><button id="next">Next</button></div></div>
+</section><footer><h2>Reading a walk</h2><p>A cell change marks consecutive observations with different known serving cells in the same technology, SIM slot and serving role. Phone-state rows show the fields Android reported. Many devices provide a network domain, technology or reject cause without an explicit registration state. An empty interval or weak signal alone cannot establish loss of registration.</p>
+<p>The JSON report contains relative timing, radio measurements, change flags and recognized phone-state fields. It omits coordinates, original timestamps, filenames, identifiers and your checkpoint names.</p>
+<p><a href="https://networksurvey.app/manual/data-logging/csv/">Network Survey CSV fields</a> · <a href="{{SOURCE_URL}}">Project source</a></p></footer></main></body></html>

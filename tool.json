@@ -1,16 +1,17 @@
 {
-  "id": "coolcode-tool-template",
-  "title": "CoolCode Tool Starter",
-  "description": "A browser-only example that trims lines and removes exact duplicates.",
-  "category": "security",
-  "tags": ["text", "lines", "duplicates"],
-  "icon": "scan-search",
-  "url": "/coolcode-tool-template/",
-  "source": "https://github.com/jsdyer/coolcode-tool-template",
+  "id": "signalwalk",
+  "title": "Signal Walk",
+  "description": "Align two Android cellular surveys at named checkpoints to compare signal, serving-cell changes and phone state.",
+  "category": "liminal-tools",
+  "tags": ["Network Survey", "Android", "cellular", "LTE", "5G", "signal strength", "registration", "CSV"],
+  "icon": "radio-tower",
+  "url": "/signalwalk/",
+  "source": "https://github.com/jsdyer/signalwalk",
   "hosting": "project",
   "access": "browser",
   "data_info": {
     "mode": "local",
-    "detail": "The browser reads the text you paste and compares its lines."
+    "detail": "Android Network Survey LTE, NR and phone-state CSVs are read in your browser.",
+    "probes": [{"label":"CSV formats checked","url":"https://coolcode.ca/signalwalk/data/formats.json","path":["reviewed"],"count_at":{"path":["formats"],"measure":"length","unit":"CSV formats"}}]
   }
 }

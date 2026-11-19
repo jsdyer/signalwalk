@@ -1,115 +1,27 @@
-# CoolCode browser tool template
+# Signal Walk
 
-A starting point for independent tools at `coolcode.ca/<repo>/`: a working local-text
-example, responsive UI, Python standard-library build, Node tests, PR checks and Pages
-publication. No npm install is needed.
-
-## Using the example
+[Open Signal Walk](https://coolcode.ca/signalwalk/) to compare two walks from Android Network Survey at the same physical checkpoints. Select files from your own device. All parsing, drawing and export run in your browser. Closing the tab clears the session.
 
 <!-- coolcode:guide -->
-The first occurrence of each trimmed line keeps its place. Compare the output with the original text before copying the result.
+Select each walk’s LTE, NR and phone-state CSVs together, then enter the elapsed time for the same landmark in both recordings. The report uses relative times and numeric checkpoint labels so locations and identifiers stay out of the export.
 <!-- /coolcode:guide -->
 
-For a real tool, replace this paragraph with one or two plain-text sentences
-about an example, a limit or how to interpret the results. Keep the source,
-coverage, refresh behaviour and a worked example in this README as appropriate.
-When updating a tool, revise any details its behaviour has changed and keep the
-homepage's shorter data-source sentence in `tool.json` accurate.
-The hub imports the marked note into the catalogue README.
+## Record and compare
 
-## One-time template setup
+Enable cellular and phone-state CSV logging in Android Network Survey. Record each walk separately and note the elapsed seconds at places you want to compare. Find the files under `Download/NetworkSurveyData/csv`. Choose that walk's `craxiom-lte`, `craxiom-nr` and `craxiom-phonestate` files together, including rotated parts. The importer reads column names so the files may be renamed. A recording can contain just one supported record type. Reselecting files replaces the whole walk and clears its alignments.
 
-Enable **Settings → General → Template repository** here. This repository does not
-need Pages enabled: its workflow builds/tests but intentionally skips deployment.
-New copies also skip deployment until `scripts/init.py` sets the tool ID to match
-their repository name. This lets you create the repo before configuring Pages.
+Start times and original timestamps help locate the landmarks. Add a named checkpoint with one time per walk and select it to place both events at zero on the shared elapsed-time scale. Repeat for other landmarks. The plot shows individual serving-cell LTE RSRP and NR SS-RSRP observations. The table includes neighbours, unknown roles, secondary serving legs, CSI-RSRP, raw timestamp strings and recorded phone-state changes. Time offsets use millisecond resolution. An absent point leaves a gap. The checkpoint summary picks the nearest relevant observation within 15 seconds per stream without filling the interval.
 
-## Start a new tool
+Identities are compared within a technology, SIM slot and serving role. A change flag indicates that two successive reported identities differ. Unknown identities break the comparison. Measurements with an unknown serving role remain in the table.
 
-1. Select **Use this template → Create a new repository**, choose owner `jsdyer`,
-   a unique lowercase name such as `my-tool`, and public visibility.
-2. Clone the new repository. Use Python 3.12+ and Node 24+.
-3. Set the identity, using a slug that matches the repository name:
+Phone-state CSVs contain an array of registration-information objects. Some include domain, access technology, roaming or rejection details and omit the registration state itself. The tool shows recognizable fields and marks an absent state as unreported. A SIM marked READY or a weak signal alone does not establish whether the phone registered successfully.
 
-```sh
-python3 scripts/init.py my-tool --title "My Tool" --description "Describe what this tool does."
-```
+## Privacy and formats
 
-Review the category, tags and icon in `tool.json`. `access: "browser"` tells the main
-catalogue that the tool works immediately without installation. `--owner` supports a different
-GitHub owner, but only projects owned by `jsdyer` inherit the CoolCode domain.
+The JSON report exports relative offsets, known role, power, a change flag and recognized phone-state fields. It excludes network and cell identifiers, coordinates, SIM slot, device and mission identifiers, original timestamps, filenames and user-entered checkpoint text. Recorded times and radio observations may still be distinctive. The application has no stored logs, telemetry, remote imports or public sample recordings.
 
-4. Replace the example in `web/` and its tests. Update the privacy explanation,
-   source attribution and README to describe the real tool.
-5. Test and preview:
+The current import headers follow the [official CSV manual](https://networksurvey.app/manual/data-logging/csv/) and the [Android phone-state logger](https://github.com/christianrowlands/android-network-survey/blob/develop/networksurvey/src/main/java/com/craxiom/networksurvey/logging/PhoneStateCsvLogger.java). Format review dates are recorded in `web/data/formats.json`. The app processes user-selected recordings on demand.
 
-```sh
-node --test tests/*.test.mjs
-python3 -m unittest discover -s tests -v
-python3 scripts/build.py
-python3 -m http.server 8000 --directory dist
-```
+## Development
 
-Open `http://localhost:8000/`. The example trims lines, skips blanks and removes exact
-duplicates, preserving first-seen order and capitalization. It makes no API requests
-and does not persist text. Update that explanation if your app behaves differently.
-
-CI also tests the browser flow and mobile layout at a project subpath. Replace the
-sample assertions in `tests/browser_smoke.py` when implementing your own UI. To run
-that check locally (optional for ordinary preview):
-
-```sh
-python3 -m venv .venv
-. .venv/bin/activate
-python3 -m pip install -r tests/browser-requirements.txt
-python3 -m playwright install --with-deps chromium
-python3 tests/browser_smoke.py
-```
-
-Playwright is a test-only dependency; the app and its static build do not use it.
-
-## Publish and register
-
-When the actual tool is ready, in the **new tool repository** set **Settings → Pages → Build and deployment →
-Source → GitHub Actions**. Push to `main`, or manually run **Browser tool · Check and
-publish** after enabling Pages. If the initial deployment ran before Pages was enabled,
-enable it and rerun. PRs only check/build and provide a downloadable preview artifact.
-
-Keep asset paths and module imports relative. Check `https://coolcode.ca/my-tool/`.
-Do not add a CNAME or set `coolcode.ca` as this project's custom domain; the account
-site supplies it. Only successful `main` builds deploy.
-
-After verifying the app, copy the reviewed object from `tool.json` into `data/tools.json`
-in [the main site](https://github.com/jsdyer/jsdyer.github.io). Each tool still builds
-independently. Update the hub record when listing metadata changes; the hub is the
-authority for discovery. Ordinary app updates touch only this repository.
-
-The main site separates **Use in your browser** from **Install yourself**. An app
-that asks for a file is still a browser tool. Standalone Linux packages should start
-in their own repositories with their own build/release workflow, rather than copying
-this browser-only scaffold. Their hub record uses `access: "install"`, links to an
-installation guide, and includes `requirements`.
-
-## Files
-
-| Path | Purpose |
-| --- | --- |
-| `tool.json` | Page metadata and a ready-to-copy catalogue record |
-| `web/` | HTML, responsive CSS, DOM interactions and separate model logic |
-| `scripts/build.py` | Escape metadata and build `web/` into `dist/` |
-| `scripts/init.py` | Set a new project's identity |
-| `tests/` | Application and builder tests |
-| `.github/workflows/pages.yml` | Check PRs and publish successful main builds |
-| `AGENTS.md` | Instructions for future coding work |
-
-Namespace optional storage as `coolcode:<tool-id>:<key>`; CoolCode paths share a
-browser origin. Don't save pasted text/uploads by default. Document external APIs
-and send only the information needed for the selected action. Never embed secrets.
-
-Scheduled refresh is opt-in. Validate source data before deploying, display its date,
-and preserve the last good deployment on failure. Public-repository schedules can
-stop after 60 days without repository activity.
-
-Templates don't propagate future edits automatically. Adopt fixes explicitly and
-consider a versioned reusable workflow once several tools confirm the shared process.
-Choose and add the intended software license before distributing a new project.
+Run `node --test tests/*.test.mjs`, `python -m unittest discover -s tests` and `python scripts/build.py`. Serve `dist/` with a local HTTP server. GitHub Actions exercises project-subpath imports and exports in Chromium before deploying. Test inputs are schema fixtures and are never presented as field recordings.
