@@ -18,7 +18,7 @@ Phone-state CSVs contain an array of registration-information objects. Some incl
 
 ## Privacy and formats
 
-The JSON report exports relative offsets, known role, power, a change flag and recognized phone-state fields. It excludes network and cell identifiers, coordinates, SIM slot, device and mission identifiers, original timestamps, filenames and user-entered checkpoint text. Recorded times and radio observations may still be distinctive. The application has no stored logs, telemetry, remote imports or public sample recordings.
+The JSON report exports relative offsets, known role, power, a change flag and recognized phone-state fields. It excludes network and cell identifiers, coordinates, SIM slot, device and mission identifiers, original timestamps, filenames and user-entered checkpoint text. Recorded times and radio observations may still be distinctive. The application keeps logs in memory. CoolCode counts page opens by tool ID. The count excludes recordings, cell observations and checkpoint names.
 
 The current import headers follow the [official CSV manual](https://networksurvey.app/manual/data-logging/csv/) and the [Android phone-state logger](https://github.com/christianrowlands/android-network-survey/blob/develop/networksurvey/src/main/java/com/craxiom/networksurvey/logging/PhoneStateCsvLogger.java). Format review dates are recorded in `web/data/formats.json`. The app processes user-selected recordings on demand.
 

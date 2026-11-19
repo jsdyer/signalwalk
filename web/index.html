@@ -1,5 +1,6 @@
 <!doctype html><html lang="en-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="{{DESCRIPTION}}">
-<title>{{TITLE}} · CoolCode</title><link rel="stylesheet" href="./style.css"><script type="module" src="./app.mjs"></script></head>
+<title>{{TITLE}} · CoolCode</title><link rel="stylesheet" href="./style.css"><script type="module" src="./app.mjs"></script><script defer src="/assets/tool-metrics.js" referrerpolicy="no-referrer"></script>
+</head>
 <body data-project="{{TOOL_ID}}"><header><div class="wrap mast"><a href="https://coolcode.ca/">← CoolCode</a><span>Networks &amp; routing</span></div></header><main class="wrap">
 <section class="hero"><p class="kicker">Android / cellular field notes</p><h1>Signal Walk</h1><p>Compare signal and registration observations from two walks through the same place.</p></section>
 <section><h2>Import your recordings</h2><p>For each walk, select its LTE, NR and phone-state files together from Android Network Survey. Find the CSVs in <code>Download/NetworkSurveyData/csv</code>. Files stay in this tab.</p>
@@ -16,4 +17,4 @@
 <div class="paging"><button id="prev">Previous</button><span id="page"></span><button id="next">Next</button></div></div>
 </section><footer><h2>Reading a walk</h2><p>A cell change marks consecutive observations with different known serving cells in the same technology, SIM slot and serving role. Phone-state rows show the fields Android reported. Many devices provide a network domain, technology or reject cause without an explicit registration state. An empty interval or weak signal alone cannot establish loss of registration.</p>
 <p>The JSON report contains relative timing, radio measurements, change flags and recognized phone-state fields. It omits coordinates, original timestamps, filenames, identifiers and your checkpoint names.</p>
-<p><a href="https://networksurvey.app/manual/data-logging/csv/">Network Survey CSV fields</a> · <a href="{{SOURCE_URL}}">Project source</a></p></footer></main></body></html>
+<p><a href="https://networksurvey.app/manual/data-logging/csv/">Network Survey CSV fields</a> · <a href="{{SOURCE_URL}}">Project source</a></p> <a href="https://coolcode.ca/report/?tool=signalwalk" referrerpolicy="no-referrer">Report an issue</a></footer></main></body></html>
